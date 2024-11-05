@@ -1,5 +1,3 @@
-import requests
-import json
 from bitget import utils
 from bitget.variables import *
 from bitget import logger
@@ -10,170 +8,87 @@ class Client():
        
         self.API_KEY = api_key
         self.API_SECRET = api_secret
-        self.PASSPHRASE = passphrase
+        self.passphrase = passphrase
       
-    def _request(self, method, request_path, data):
-        if method == GET:
-            request_path = request_path + utils.parse_params_to_str(data)
-            
-        # Create url
-        url = API_URL + request_path
-        
-        # Get local time
-        timestamp = utils.get_timestamp()
-        
-        body = json.dumps(data) if method == POST else ""
-        sign = utils.sign(utils.pre_hash(timestamp, method, request_path, str(body)), self.API_SECRET)
-        header = utils.get_header(self.API_KEY, sign, timestamp, self.PASSPHRASE)
-        
-        # Send request
-        response = None
-        if method == GET:
-            response = requests.get(url, headers=header)
-        elif method == POST:
-            response = requests.post(url, data=body, headers=header)
-            
-        # Exception handle
-        if not str(response.status_code).startswith('2'):
-            raise "API Request Error status code({response.status_code}): {response}"
-        return response.json()
+    def _request(self, method, request_path, params={}):
+        pass
     
-    def _create_request(self, required_params, optional_params, type, category, endpoint, method, params):
-        
-        # Initialize data
-        data = {}
-        
-        # Check for required parameters and raise an error if any are missing
-        for param in required_params:
-            if param not in params:
-                raise ValueError(f"The '{param}' parameter is required.") 
-            else:
-                data[param] = params[param]
-        
-        # Check if eather orderId and clientOid are provided
-        if "orderId" in optional_params and "clientOid" in optional_params:
-            orderId = params.get("orderId")
-            clientOid = params.get("clientOid") 
-            
-            if orderId or clientOid:
-                pass
-            else:
-                raise ValueError("Either 'orderId' or 'clientOid' is required.")          
-        
-        # Add optional parameters if provided
-        for key, value in params.items():
-            if key in optional_params:
-                data[key] = value
-        
-        request_path = API_VERSION + type + "/" + category + "/" + endpoint  
-            
-        return self._request(method, request_path, data)
-            
+    
     # ########################################
     # ################ SPOT MARKET############
     # ########################################
     
-    def spot_coin_info(self, **params):
+    def spot_coin_info(self, coin=None):
         
-        # List of required parameters
-        required_params = []
+        if coin:
+            params = {}
+            params["coin"] = coin
+            return self._request(GET, SPOT_PUBLIC_V2_URL + "/coins", params)
+        else:
+            return self._request(GET, SPOT_PUBLIC_V2_URL + "/coins")
         
-        # List of optional parameters
-        optional_params = ["coin"]
+    def spot_symbol_info(self, symbol=None):
         
-        # Request parameters
-        type = SPOT
-        category = PUBLIC
-        endpoint = "coins"
-        method = GET
- 
-        return self._create_request(required_params, optional_params, type, category, endpoint, method, params)
+        if symbol:
+            params = {}
+            params["symbol"] = symbol
+            return self._request(GET, SPOT_PUBLIC_V2_URL + "/symbols", params)
+        else:
+            return self._request(GET, SPOT_PUBLIC_V2_URL + "/symbols")
+    
+    def spot_vip_fee_rate(self):
         
-    def spot_symbol_info(self, **params):
+        return self._request(GET, SPOT_MARKET_V2_URL + "/vip-fee-rate")
+    
+    def spot_ticker_info(self, symbol=None):
         
-        # List of required parameters
-        required_params = []
-        
-        # List of optional parameters
-        optional_params = ["symbol"]
-        
-        # Request parameters
-        type = "spot"
-        category = "public"
-        endpoint = "symbols"
-        method = "GET"
-
-        return self._create_request(required_params, optional_params, type, category, endpoint, method, params)
-        
-    def spot_vip_fee_rate(self, **params):
-        
-        # List of required parameters
-        required_params = []
-        
-        # List of optional parameters
-        optional_params = []
-        
-        # Request parameters
-        type = "spot"
-        category = "market"
-        endpoint = "vip-fee-rate"
-        method = "GET"
-
-        return self._create_request(required_params, optional_params, type, category, endpoint, method, params)
-        
-    def spot_ticker_info(self, **params):
-        
-        # List of required parameters
-        required_params = []
-        
-        # List of optional parameters
-        optional_params = ["symbol"]
-        
-        # Request parameters
-        type = "spot"
-        category = "market"
-        endpoint = "tickers"
-        method = "GET"
-
-        return self._create_request(required_params, optional_params, type, category, endpoint, method, params)        
-        
-    def spot_merge_depth(self, **params):
-        
-        # List of required parameters
-        required_params = ["symbol"]
-        
-        # List of optional parameters
-        optional_params = ["precision", "limit"]
-        
-        # Request parameters
-        type = "spot"
-        category = "market"
-        endpoint = "merge-depth"
-        method = "GET"
-
-        return self._create_request(required_params, optional_params, type, category, endpoint, method, params)        
-        
-    def spot_orderbook_depth(self, **params):
-        
-        # List of required parameters
-        required_params = ["symbol"]
-        
-        # List of optional parameters
-        optional_params = ["type", "limit"]
-        
-        # Request parameters
-        type = "spot"
-        category = "market"
-        endpoint = "orderbook"
-        method = "GET"
-
-        return self._create_request(required_params, optional_params, type, category, endpoint, method, params)        
-
-    def spot_candlestick_data(self, symbol, granularity, **kwargs):
+        if symbol:
+            params = {}
+            params["symbol"] = symbol
+            return self._request(GET, SPOT_MARKET_V2_URL + "/tickers", params)
+        else:
+            return self._request(GET, SPOT_MARKET_V2_URL + "/tickers")
+    
+    def spot_merge_depth(self, symbol, **kwargs):
         
         params = {}
         params["symbol"] = symbol
-        params["granularity"] = granularity
+        
+        # Define a set of valid optional parameters
+        valid_options = {"precision", "limit"}
+        
+        for key, value in kwargs.items():
+            if key in valid_options and value:
+                params[key] = value
+                
+        return self._request(GET, SPOT_MARKET_V2_URL + "/merge-depth", params)
+    
+    def spot_orderbook_depth(self, symbol, **kwargs):
+        
+        params = {}
+        params["symbol"] = symbol
+        
+        # Define a set of valid optional parameters
+        valid_options = {"type", "limit"}
+        
+        for key, value in kwargs.items():
+            if key in valid_options and value:
+                params[key] = value
+                
+        return self._request(GET, SPOT_MARKET_V2_URL + "/orderbook", params)
+    
+    def spot_candlestick_data(self, **kwargs):
+        
+        # List of required parameters
+        required_params = ["symbol", "granularity"]
+        
+        # Check for required parameters and raise an error if any are missing
+        for param in required_params:
+            if param not in kwargs:
+                raise ValueError(f"The '{param}' parameter is required.")      
+
+        # Start building the params dictionary with required parameters
+        params = {param: kwargs[param] for param in required_params}
         
         # Define a set of valid optional parameters
         valid_options = {"startTime", "endTime", "limit"}
