@@ -1179,5 +1179,674 @@ class Client():
         
         return self._create_request(required_params, optional_params, type, category, endpoint, method, params)
     
+    # ########################################
+    # ############ FUTURE TRADE ##############
+    # ########################################
+    
+    def mix_place_order(self, **params):
+        
+        # List of required parameters
+        required_params = [
+            "symbol", "productType", "marginMode", "marginCoin",
+            "size", "side", "orderType"
+        ]
+        
+        # List of optional parameters
+        optional_params = [
+            "price", "tradeSide", "force", "clientOid", "reduceOnly", 
+            "presetStopSurplusPrice", "presetStopLossPrice", "priceProtect"
+        ]
+        
+        # Request parameters
+        type = MIX
+        category = ORDER
+        endpoint = "place_order"
+        method = POST        
+        
+        return self._create_request(required_params, optional_params, type, category, endpoint, method, params)
+    
+    def mix_reversal(self, **params):
+        
+        # List of required parameters
+        required_params = ["symbol", "marginCoin", "productType", "size"]
+        
+        # List of optional parameters
+        optional_params = ["side", "tradeSide", "clientOid"]
+        
+        # Request parameters
+        type = MIX
+        category = ORDER
+        endpoint = "click-backhand"
+        method = POST        
+        
+        return self._create_request(required_params, optional_params, type, category, endpoint, method, params)
+    
+    def mix_batch_order(self, **params):
+        
+        # List of required parameters
+        required_params = [
+            "symbol", "productType", "marginMode", "marginCoin", 
+            "orderList", "size", "side", "orderType", 
+        ]
+        
+        # List of optional parameters
+        optional_params = [
+            "price", "tradeSide", "force", "clientOid", "reduceOnly"
+            "presetStopSurplusPrice", "presetStopLossPrice", "stpMode"
+            
+        ]
+        
+        # Request parameters
+        type = MIX
+        category = ORDER
+        endpoint = "batch-place-order"
+        method = POST        
+        
+        return self._create_request(required_params, optional_params, type, category, endpoint, method, params)
+    
+    def mix_modify_order(self, **params):
+      
+        # List of required parameters
+        required_params = ["symbol", "productType", "newClientOid" ]
+        
+        # List of optional parameters
+        optional_params = [
+            "orderId", "clientOid", "newSize", "newPrice",
+            "newPresetStopSurplusPrice", "newPresetStopLossPrice"            
+        ]
+        
+        # Request parameters
+        type = MIX
+        category = ORDER
+        endpoint = "modify-order"
+        method = POST        
+        
+        return self._create_request(required_params, optional_params, type, category, endpoint, method, params)
+    
+    def mix_cancel_order(self, **params):
+        
+        # List of required parameters
+        required_params = ["symbol", "productType"]
+        
+        # List of optional parameters
+        optional_params = ["marginCoin", "orderId", "clientOid"]
+        
+        # Request parameters
+        type = MIX
+        category = ORDER
+        endpoint = "cancel-order"
+        method = POST        
+        
+        return self._create_request(required_params, optional_params, type, category, endpoint, method, params)
+    
+    def mix_batch_cancel(self, **params):
+        
+        # List of required parameters
+        required_params = ["productType"]
+        
+        # List of optional parameters
+        optional_params = ["orderIdList", "orderId", "clientOid", "symbol", "marginCoin"]
+        
+        # Request parameters
+        type = MIX
+        category = ORDER
+        endpoint = "batch-cancel-orders"
+        method = POST        
+        
+        return self._create_request(required_params, optional_params, type, category, endpoint, method, params)
+    
+    def mix_flash_close_position(self, **params):
+        
+        # List of required parameters
+        required_params = ["productType"]
+        
+        # List of optional parameters
+        optional_params = ["symbol", "holdSide"]
+        
+        # Request parameters
+        type = MIX
+        category = ORDER
+        endpoint = "close-positions"
+        method = POST        
+        
+        return self._create_request(required_params, optional_params, type, category, endpoint, method, params)
+    
+    def mix_get_order_detail(self, **params):
+        
+        # List of required parameters
+        required_params = ["symbol", "productType"]
+        
+        # List of optional parameters
+        optional_params = ["orderId", "clientOid"]
+        
+        # Request parameters
+        type = MIX
+        category = ORDER
+        endpoint = "detail"
+        method = GET        
+        
+        return self._create_request(required_params, optional_params, type, category, endpoint, method, params)
+    
+    def mix_get_order_fill_details(self, **params):
+        
+        # List of required parameters
+        required_params = ["productType"]
+        
+        # List of optional parameters
+        optional_params = [
+            "orderId", "symbol", "idLessThan", 
+            "startTime", "endTime", "limit"
+        ]
+        
+        # Request parameters
+        type = MIX
+        category = ORDER
+        endpoint = "fill-detail"
+        method = GET        
+        
+        return self._create_request(required_params, optional_params, type, category, endpoint, method, params)
+    
+    def mix_get_historical_transaction_details(self, **params):
+        
+        # List of required parameters
+        required_params = ["productType"]
+        
+        # List of optional parameters
+        optional_params = [
+            "orderId", "symbol", "startTime",
+            "endTime", "idLessThan", "limit"
+        ]
+        
+        # Request parameters
+        type = MIX
+        category = ORDER
+        endpoint = "fill-history"
+        method = GET        
+        
+        return self._create_request(required_params, optional_params, type, category, endpoint, method, params)
+    
+    def mix_get_pending_orders(self, **params):
+        
+        # List of required parameters
+        required_params = ["productType"]
+        
+        # List of optional parameters
+        optional_params = [
+            "orderId", "clientOid", "symbol", "status",
+            "idLessThan", "startTime", "endTime", "limit"
+        ]
+        
+        # Request parameters
+        type = MIX
+        category = ORDER
+        endpoint = "orders-pending"
+        method = GET        
+        
+        return self._create_request(required_params, optional_params, type, category, endpoint, method, params)
+    
+    def mix_get_history_order(self, **params):
+        
+        # List of required parameters
+        required_params = ["productType"]
+        
+        # List of optional parameters
+        optional_params = [
+            "orderId", "clientOid", "symbol", "idLessThan",
+            "orderSource", "startTime", "endTime", "limit"
+        ]
+        
+        # Request parameters
+        type = MIX
+        category = ORDER
+        endpoint = "orders-history"
+        method = GET        
+        
+        return self._create_request(required_params, optional_params, type, category, endpoint, method, params)
+    
+    def mix_cancel_all_orders(self, **params):
+        
+        # List of required parameters
+        required_params = ["productType"]
+        
+        # List of optional parameters
+        optional_params = ["symbol", "marginCoin", "requestTime", "receiveWindow"]
+        
+        # Request parameters
+        type = MIX
+        category = ORDER
+        endpoint = "cancel-all-orders"
+        method = POST        
+        
+        return self._create_request(required_params, optional_params, type, category, endpoint, method, params)
+    
+    # ########################################
+    # ########### FUTURE TRIGGER #############
+    # ######################################## 
+    
+    def mix_trigger_sub_order(self, **params):
+        
+        # List of required parameters
+        required_params = ["planType", "planOrderId", "productType"]
+        
+        # List of optional parameters
+        optional_params = []
+        
+        # Request parameters
+        type = MIX
+        category = ORDER
+        endpoint = "plan-sub-order"
+        method = GET        
+        
+        return self._create_request(required_params, optional_params, type, category, endpoint, method, params)
+    
+    def mix_stop_profit_and_stop_loss_plan_orders(self, **params):
+        
+        # List of required parameters
+        required_params = [
+            "marginCoin", "productType", "symbol", 
+            "clientOid", "stpMode",
+        ]
+        
+        # List of optional parameters
+        optional_params = [
+            "triggerType", "executePrice", "rangeRate", 
+            "triggerBy", "triggerTime", "orderSource", "orderTime"
+        ]
+        
+        # Request parameters
+        type = MIX
+        category = ORDER
+        endpoint = "place-tpsl-order"
+        method = POST        
+        
+        return self._create_request(required_params, optional_params, type, category, endpoint, method, params)
+    
+    def mix_place_trigger_order(self, **params):
+        
+        # List of required parameters
+        required_params = [
+            "planType", "symbol", "productType", "marginMode", "marginCoin", 
+            "size", "triggerPrice", "triggerType", "side", "orderType"
+        ]
+        
+        # List of optional parameters
+        optional_params = [
+            "price", "callbackRatio", "tradeSide", "clientOid",
+            "reduceOnly", "stopSurplusTriggerPrice", "stopSurplusExecutePrice",
+            "stopSurplusTriggerType", "stopLossTriggerPrice", "stopLossExecutePrice",
+            "stopLossTriggerType", "stpMode"
+        ]
+        
+        # Request parameters
+        type = MIX
+        category = ORDER
+        endpoint = "place-plan-order"
+        method = POST        
+        
+        return self._create_request(required_params, optional_params, type, category, endpoint, method, params)
+    
+    def mix_modify_stop_profit_and_stop_loss_plan_order(self, **params):
+        
+        # List of required parameters
+        required_params = ["marginCoin", "productType", "symbol", "triggerPrice", "size"]
+        
+        # List of optional parameters
+        optional_params = ["orderId", "clientOid", "triggerType", "executePrice", "rangeRate"]
+        
+        # Request parameters
+        type = MIX
+        category = ORDER
+        endpoint = "modify-tpsl-order"
+        method = POST        
+        
+        return self._create_request(required_params, optional_params, type, category, endpoint, method, params)
+      
+    def mix_modify_trigger_order(self, **params):
+        
+        # List of required parameters
+        required_params = ["productType"]
+        
+        # List of optional parameters
+        optional_params = [
+            "orderId", "clientOid", "newSize", "newPrice", 
+            "newCallbackRatio", "newTriggerPrice", "newTriggerType",
+            "newStopSurplusTriggerPrice", "newStopSurplusExecutePrice",
+            "newStopSurplusTriggerType", "newStopLossTriggerPrice",
+            "newStopLossExecutePrice", "newStopLossTriggerType",
+        ]
+        
+        # Request parameters
+        type = MIX
+        category = ORDER
+        endpoint = "modify-plan-order"
+        method = POST        
+        
+        return self._create_request(required_params, optional_params, type, category, endpoint, method, params)
+    
+    def mix_get_pending_trigger_order(self, **params):
+        
+        # List of required parameters
+        required_params = ["planType", "productType"]
+        
+        # List of optional parameters
+        optional_params = [
+            "orderId", "clientOid", "symbol", "idLessThan",
+            "startTime", "endTime", "limit"
+        ]
+        
+        # Request parameters
+        type = MIX
+        category = ORDER
+        endpoint = "orders-plan-pending"
+        method = GET        
+        
+        return self._create_request(required_params, optional_params, type, category, endpoint, method, params)
+    
+    def mix_cancel_trigger_order(self, **params):
+        
+        # List of required parameters
+        required_params = ["productType"]
+        
+        # List of optional parameters
+        optional_params = [
+            "orderIdList", "orderId", "clientOid", "symbol", "marginCoin", "planType"
+        ]
+        
+        # Request parameters
+        type = MIX
+        category = ORDER
+        endpoint = "cancel-plan-order"
+        method = POST        
+        
+        return self._create_request(required_params, optional_params, type, category, endpoint, method, params)
+    
+    def mix_get_history_trigger_order(self, **params):
+        
+        # List of required parameters
+        required_params = ["planType", "productType"]
+        
+        # List of optional parameters
+        optional_params = [
+            "orderId", "clientOid", "planStatus", "symbol",
+            "idLessThan", "startTime", "endTime", "limit"
+        ]
+        
+        # Request parameters
+        type = MIX
+        category = ORDER
+        endpoint = "orders-plan-history"
+        method = GET        
+        
+        return self._create_request(required_params, optional_params, type, category, endpoint, method, params)
+    
+    # ########################################
+    # ########### FUTURE ACCOUNT #############
+    # ########################################     
+    
+    def mix_get_single_account(self, **params):
+        
+        # List of required parameters
+        required_params = ["symbol", "productType", "marginCoin"]
+        
+        # List of optional parameters
+        optional_params = []
+        
+        # Request parameters
+        type = MIX
+        category = ACCOUNT
+        endpoint = "account"
+        method = GET        
+        
+        return self._create_request(required_params, optional_params, type, category, endpoint, method, params)
+    
+    def mix_get_account_list(self, **params):
+        
+        # List of required parameters
+        required_params = ["productType"]
+        
+        # List of optional parameters
+        optional_params = []
+        
+        # Request parameters
+        type = MIX
+        category = ACCOUNT
+        endpoint = "accounts"
+        method = GET        
+        
+        return self._create_request(required_params, optional_params, type, category, endpoint, method, params)
+    
+    def mix_get_subaccount_assets(self, **params):
+        
+        # List of required parameters
+        required_params = ["productType"]
+        
+        # List of optional parameters
+        optional_params = []
+        
+        # Request parameters
+        type = MIX
+        category = ACCOUNT
+        endpoint = "sub-account-assets"
+        method = GET        
+        
+        return self._create_request(required_params, optional_params, type, category, endpoint, method, params)
+    
+    def mix_get_USDTM_futures_interest_history(self, **params):
+        
+        # List of required parameters
+        required_params = ["productType"]
+        
+        # List of optional parameters
+        optional_params = ["coin", "idLessThan", "startTime", "endTime", "limit"]
+        
+        # Request parameters
+        type = MIX
+        category = ACCOUNT
+        endpoint = "interest-history"
+        method = GET        
+        
+        return self._create_request(required_params, optional_params, type, category, endpoint, method, params)
+    
+    def mix_my_estimated_open_count(self, **params):
+        
+        # List of required parameters
+        required_params = ["symbol", "productType", "marginCoin","openAmount", "openPrice"]
+        
+        # List of optional parameters
+        optional_params = ["leverage"]
+        
+        # Request parameters
+        type = MIX
+        category = ACCOUNT
+        endpoint = "open-count"
+        method = GET        
+        
+        return self._create_request(required_params, optional_params, type, category, endpoint, method, params)
+    
+    def mix_set_isolated_position_auto_margin(self, **params):
+        
+        # List of required parameters
+        required_params = ["symbol", "autoMargin", "marginCoin"]
+        
+        # List of optional parameters
+        optional_params = ["holdSide", "amount"]
+        
+        # Request parameters
+        type = MIX
+        category = ACCOUNT
+        endpoint = "set-auto-margin"
+        method = POST        
+        
+        return self._create_request(required_params, optional_params, type, category, endpoint, method, params)
+    
+    def mix_change_leverage(self, **params):
+        
+        # List of required parameters
+        required_params = ["symbol", "productType", "marginCoin", "leverage"]
+        
+        # List of optional parameters
+        optional_params = ["holdSide"]
+        
+        # Request parameters
+        type = MIX
+        category = ACCOUNT
+        endpoint = "set-leverage"
+        method = POST        
+        
+        return self._create_request(required_params, optional_params, type, category, endpoint, method, params)
+    
+    def mix_adjust_position_margin(self, **params):    
+        
+        # List of required parameters
+        required_params = ["symbol", "productType", "marginCoin", "holdSide", "amount"]
+        
+        # List of optional parameters
+        optional_params = []
+        
+        # Request parameters
+        type = MIX
+        category = ACCOUNT
+        endpoint = "set-margin"
+        method = POST        
+        
+        return self._create_request(required_params, optional_params, type, category, endpoint, method, params)
+    
+    def mix_set_USDTM_futures_asset_mode(self, **params):
+        
+        # List of required parameters
+        required_params = ["productType", "assetMode"]
+        
+        # List of optional parameters
+        optional_params = []
+        
+        # Request parameters
+        type = MIX
+        category = ACCOUNT
+        endpoint = "set-asset-mode"
+        method = POST        
+        
+        return self._create_request(required_params, optional_params, type, category, endpoint, method, params)
+    
+    def mix_change_margin_mode(self, **params):
+        
+        # List of required parameters
+        required_params = ["symbol", "productType", "marginCoin", "marginMode"]
+        
+        # List of optional parameters
+        optional_params = []
+        
+        # Request parameters
+        type = MIX
+        category = ACCOUNT
+        endpoint = "set-margin-mode"
+        method = POST        
+        
+        return self._create_request(required_params, optional_params, type, category, endpoint, method, params)
+    
+    def mix_change_position_mode(self, **params):
+        
+        # List of required parameters
+        required_params = ["productType", "posMode"]
+        
+        # List of optional parameters
+        optional_params = []
+        
+        # Request parameters
+        type = MIX
+        category = ACCOUNT
+        endpoint = "set-position-mode"
+        method = POST        
+        
+        return self._create_request(required_params, optional_params, type, category, endpoint, method, params)
+    
+    def mix_get_account_bills(self, **params):
+        
+        # List of required parameters
+        required_params = ["productType"]
+        
+        # List of optional parameters
+        optional_params = [
+            "coin", "businessType", "idLessThan", 
+            "startTime", "endTime", "limit"
+        ]
+        
+        # Request parameters
+        type = MIX
+        category = ACCOUNT
+        endpoint = "bill"
+        method = GET        
+        
+        return self._create_request(required_params, optional_params, type, category, endpoint, method, params)
+    
+    # ########################################
+    # ########### FUTURE POSITION ############
+    # ########################################         
+    
+    def mix_position_tier(self, **params):
+        
+        # List of required parameters
+        required_params = ["productType", "symbol"]
+        
+        # List of optional parameters
+        optional_params = []
+        
+        # Request parameters
+        type = MIX
+        category = MARKET
+        endpoint = "query-position-lever"
+        method = GET        
+        
+        return self._create_request(required_params, optional_params, type, category, endpoint, method, params)
+    
+    def mix_single_position(self, **params):
+        
+        # List of required parameters
+        required_params = ["productType", "symbol", "marginCoin"]
+        
+        # List of optional parameters
+        optional_params = []
+        
+        # Request parameters
+        type = MIX
+        category = POSITION
+        endpoint = "single-position"
+        method = GET        
+        
+        return self._create_request(required_params, optional_params, type, category, endpoint, method, params)
+    
+    def mix_all_positions(self, **params):
+        
+        # List of required parameters
+        required_params = ["productType"]
+        
+        # List of optional parameters
+        optional_params = ["marginCoin"]
+        
+        # Request parameters
+        type = MIX
+        category = POSITION
+        endpoint = "all-position"
+        method = GET        
+        
+        return self._create_request(required_params, optional_params, type, category, endpoint, method, params)
+    
+    def mix_historical_position(self, **params):
+        
+        # List of required parameters
+        required_params = []
+        
+        # List of optional parameters
+        optional_params = [
+            "symbol", "productType", "idLessThan",
+            "startTime", "endTime", "limit"
+        ]
+        
+        # Request parameters
+        type = MIX
+        category = POSITION
+        endpoint = "history-position"
+        method = GET        
+        
+        return self._create_request(required_params, optional_params, type, category, endpoint, method, params)
     
     

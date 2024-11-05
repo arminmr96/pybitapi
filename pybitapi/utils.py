@@ -4,8 +4,10 @@ import time
 from pybitapi.variables import *
 
 def parse_params_to_str(data):
+    # Sort the dictionary by key in ascending order
+    sorted_data = dict(sorted(data.items()))
     url = '?'
-    for key, value in data.items():
+    for key, value in sorted_data.items():
         url = url + str(key) + '=' + str(value) + '&'
 
     return url[0:-1]
@@ -28,5 +30,6 @@ def get_header(api_key, sign, timestamp, passphrase):
     header[ACCESS_SIGN] = sign
     header[ACCESS_TIMESTAMP] = str(timestamp)
     header[ACCESS_PASSPHRASE] = passphrase
+    header[LOCALE] = EN
 
     return header

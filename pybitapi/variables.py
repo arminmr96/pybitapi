@@ -19,6 +19,7 @@ ACCOUNT = "account"
 WALLET = "wallet"
 INST_LOAN = "ins-loan"
 ORDER = "order"
+POSITION = "position"
 MANAGE = "manage"
 CURRENCIES = "currencies"
 CROSSED = "crossed"
@@ -43,6 +44,8 @@ ACCESS_SIGN = 'ACCESS-SIGN'
 ACCESS_TIMESTAMP = 'ACCESS-TIMESTAMP'
 ACCESS_PASSPHRASE = 'ACCESS-PASSPHRASE'
 APPLICATION_JSON = 'application/json'
+LOCALE = "locale"
+EN = "en-US"
 
 # ########################################
 # ##############【public url】#############
