@@ -5,7 +5,7 @@ POST = "POST"
 # Types
 COMMON = ""
 SPOT = "spot"
-FUTURE = "future"
+MIX = "mix"
 BROKER = "broker"
 MARGIN = "margin"
 COPY = "copy"
@@ -34,7 +34,7 @@ LOAN = "loan"
 
 # Base Url and version
 API_URL = 'https://api.bitget.com'
-API_VERSION = "/api/v2"
+API_VERSION = "/api/v2/"
 
 # Header
 CONTENT_TYPE = 'Content-Type'

@@ -1,7 +1,7 @@
 import hmac
 import base64
 import time
-from bitget.variables import *
+from pybitapi.variables import *
 
 def parse_params_to_str(data):
     url = '?'
